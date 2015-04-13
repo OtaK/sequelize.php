@@ -1,0 +1,17 @@
+{
+    "name": "otak/sequelize.php",
+    "description": "PHP Port of the awesome Sequelize ORM for Node.js",
+    "license": "Apache 2.0",
+    "authors": [
+        {
+            "name": "Mathieu Amiot",
+            "email": "m.amiot@otak-arts.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Sequelize\\": "src/"
+        }
+    }
+}
