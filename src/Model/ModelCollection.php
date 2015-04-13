@@ -19,7 +19,7 @@
 
     namespace Sequelize\Model;
 
-    // TODO use statements
+    use Sequelize\Dialects\Dialect;
 
     /**
      * Class ModelCollection

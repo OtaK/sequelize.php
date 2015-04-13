@@ -47,6 +47,16 @@
             $this->_db    = $db ?: Connector::get_instance();
         }
 
+        private static function _queryGenerator($type, $table)
+        {
+            return new static\{$type}($table);
+        }
+
+        public static __callStatic($name, $args)
+        {
+            return self::_queryGenerator($name, $args[0]);
+        }
+
         /**
          * @throws \Exception
          * @return DBResult
