@@ -28,7 +28,7 @@
 
     namespace Sequelize\Model;
 
-    // TODO use statements
+    use Sequelize\Query\Generator;
 
     /**
      * Class FieldNotDefinedException
@@ -157,7 +157,7 @@
          */
         public static function find($criteria)
         {
-            $query = new DBSelectQueryGenerator(static::tableName());
+            $query = Generator::SELECT(static::tableName());
 
             if (static::$__enableTimestamps)
             {
@@ -219,7 +219,7 @@
          */
         public static function all(array $criteria = null, $raw = false)
         {
-            $query = new DBSelectQueryGenerator(static::tableName());
+            $query = Generator::SELECT(static::tableName());
 
             if (static::$__enableTimestamps)
             {
@@ -251,7 +251,7 @@
          */
         public static function destroy($criteria)
         {
-            $query = new DBDeleteQueryGenerator(static::tableName());
+            $query = Generator::DELETE(static::tableName());
             if (is_array($criteria))
             {
                 foreach ($criteria as $field => $val)
@@ -272,10 +272,10 @@
         /**
          * Parses query array param and translates it to selectquerygen
          * @param array                  $criteria
-         * @param DBSelectQueryGenerator &$query
+         * @param Generator &$query
          * @return array - return included models
          */
-        private static function _parseCriteria(array $criteria, DBSelectQueryGenerator &$query)
+        private static function _parseCriteria(array $criteria, Generator &$query)
         {
             $ret = array();
             if (isset($criteria['attributes']))
@@ -539,9 +539,9 @@
                 $this->assign($data, $fields);
 
             $insert    = $this->{static::$__idField} === null;
-            $className = '\\MuPHP\\DB\\QueryGenerator\\' . ($insert ? "DBInsertQueryGenerator" : "DBUpdateQueryGenerator");
-            /** @var DBInsertQueryGenerator|DBUpdateQueryGenerator $query */
-            $query = new $className(static::tableName());
+            $queryType = $insert ? 'INSERT' : 'UPDATE';
+            /** @var Generator $query */
+            $query = new Generator::{$queryType}(static::tableName());
             foreach ($this->_values as $name => $var)
             {
                 if ($name !== static::$__idField)
